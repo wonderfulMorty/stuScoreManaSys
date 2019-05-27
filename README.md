@@ -36,7 +36,7 @@
 1.登陆界面
 ![登陆界面](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-50-27.png?raw=true)
 
-2.管理员界面：
+2.管理员管理界面：
 ![1](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-51-46.png?raw=true)
 
 ![2](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-01.png?raw=true)
@@ -45,6 +45,7 @@
 
 ![4](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-35.png?raw=true)
 
+2.教师管理界面：
 ![5](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-04.png?raw=true)
 
 ![6](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-15.png?raw=true)
