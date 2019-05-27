@@ -30,3 +30,21 @@
 5.	登陆系统的用户名和密码：
 系统所有密码，均已经采用MD5加密。系统admin账号的用户名和密码都是admin。以管理员身份进入管理员界面后，可以更改学生和教师的密码。更改后的密码在后台的控制台内可以查看到。
 
+
+三、登陆界面
+
+1.登陆界面
+https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-50-27.png?raw=true
+
+2.管理员界面：
+https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-51-46.png?raw=true
+
+https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-01.png?raw=true
+
+https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-17.png?raw=true
+
+https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-35.png?raw=true
+
+https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-04.png?raw=true
+
+https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-14.png?raw=true
