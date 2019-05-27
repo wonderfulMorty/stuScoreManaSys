@@ -8,6 +8,7 @@
 3.	Java版本：1.8 ，64位
 4.	编译工具：maven
 5.	Mysql:5.7.18
+
 二、	系统使用说明
 1.	数据导入：
 新建数据库myscoremanage，设置数据库编码为utf-8。将项目文件下的myscoremanage.sql导入数据库。
