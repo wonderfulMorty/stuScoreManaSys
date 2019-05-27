@@ -34,7 +34,7 @@
 三、登陆界面
 
 1.登陆界面
-(https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-50-27.png?raw=true)
+![登陆界面](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-50-27.png?raw=true)
 
 2.管理员界面：
 ![1](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-51-46.png?raw=true)
