@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册LAU</title>
+
+
+    
+    <link rel="stylesheet" href="/Sys/css/layui.css">
+    <link rel="stylesheet" href="/Sys/css/sign.css">
+    
+    <link rel="stylesheet" href="/Sys/js/css/modules/layui-icon-extend/iconfont.css">
+     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/Sys/css/font.css">
+	<link rel="stylesheet" href="/Sys/css/xadmin.css">
+	<link rel="stylesheet" href="/Sys/css/formSelects-v4.css" />
+<script type="text/javascript"
+	src="/Sys/js/jquery-3.3.1.min.js"></script>
+    <script src="/Sys/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+        <script src="/Sys/js/formSelects-v4.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+<body class="layui-unselect lau-sign-body" style="padding-top: 0px " >
+
+<form action="" class="layui-form">
+
+    <div class="layui-form-item" >
+     <div class="layui-inline">
+        <label class="layui-form-label" ><i class="iconfont layui-icon-extend-bianhao" id="num" >学号</i></label>
+        <div class="layui-input-block">
+            <input type="text"  name="stuno" placeholder="请输入学号"   autocomplete="off" class="layui-input" id="stuno">
+        </div>
+ 	</div>
+
+    <div class="layui-inline">
+        <label class="layui-form-label"><i class="iconfont layui-icon-extend-ziyuan"></i> 姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入姓名" autocomplete="off" class="layui-input" id="name">
+        </div>
+    </div>
+ </div>   
+    
+    <div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i> 学科</label>
+        <div class="layui-input-block">
+            <input type="text" name="coursename" placeholder="请输入科目" autocomplete="off" class="layui-input" id="coursename">
+        </div>
+    </div>
+    
+    <div class="layui-inline">
+        <label class="layui-form-label"><i class="iconfont layui-icon-extend-xingbie2"></i> 成绩</label>
+         <div class="layui-input-block">
+      <input type="text" name="score" placeholder="请输入成绩" autocomplete="off" class="layui-input" id="score">
+    </div>
+    </div>
+    
+    </div>
+    
+    
+    
+   <div class="layui-inline">
+        <label class="layui-form-label"><i class="iconfont layui-icon-extend-xingbie2"></i> 类型</label>
+          <div class="layui-input-block" style="margin-right: 50px">
+      <input type="radio" name="type" value="未批改" title="未批改">
+      <input type="radio" name="type" value="已批改" title="已批改">
+      </div>
+        </div>
+    
+    
+
+    
+
+
+
+	
+
+  
+
+    <div class="layui-form-item lau-sign-other" style="margin-top: 20px;text-align:center">
+        <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="updateClaCou" style="margin-right: 100px">提交</button>
+       
+    </div>
+
+</form>
+
+</body>
+<script src="/Sys/lib/layui/layui.js"></script>
+<script th:inline="javascript">
+   $(function(){
+	   
+	   var num= [[${num}]];
+	   var coursename= [[${coursename}]];
+		  $.ajax({
+			  url:'getPersonScore',
+			  type:'POST',
+			  data:{'num':num,'coursename':coursename},
+		  	  success:function(data){
+		  		var datajson = JSON.parse(data)
+		  		//alert(JSON.stringify(datajson.data[0].num))
+		  		$("#stuno").val(datajson.data[0].stuno)
+		  		$('#name').val(datajson.data[0].name)
+		  		$('#coursename').val(datajson.data[0].coursename)
+		  		$('#score').val(datajson.data[0].score)	
+		  		
+		  		$("input[name=type][value='未批改']").attr("checked", datajson.data[0].type == '未批改' ? true : false);
+		          $("input[name=type][value='已批改']").attr("checked",  datajson.data[0].type == '已批改' ? true : false);
+		  		
+		  	  }
+		  });
+	   
+	   
+	    layui.use(['jquery','form'], function() {
+	           var form = layui.form;
+	           //监听提交
+	           form.on('submit(updateClaCou)', function(data) {
+	               var updateJson= data.field;
+					data=JSON.stringify(updateJson)
+					$.ajax({
+		               	 url : 'updateClaCou',
+		                 data : data,
+		                 type:'POST',
+		                 contentType: 'application/json',
+		                 success:function(data){
+		                	 if(data=="success"){
+		                		 layer.msg("修改成功！",function(){
+			                            
+			                        });
+		                	 }
+		                	 
+		                 },
+		                 error:function(args){
+		                	 layer.msg("账号已经存在或者信息未填完整，注册失败！",function(){
+		                         
+		                     });
+		                 }
+		               	});
+	              		
+	           });
+	       });   
+   });
+   
+</script>
+</html>

@@ -1,0 +1,38 @@
+#数据库中的stu_sco表
+DROP PROCEDURE IF EXISTS proc_initDatas;
+DELIMITER $
+CREATE PROCEDURE proc_initDatas()
+BEGIN
+    DECLARE i INT DEFAULT 201601001;
+    WHILE i<=201601010 DO
+        INSERT INTO stu_sco(stuno,courseid,score,type) VALUES(i,'c001', floor(rand()*100),'已批改');
+        SET i = i+1;
+    END WHILE;
+END $
+CALL proc_initDatas();
+
+
+#数据库的stu表
+BEGIN
+    DECLARE i INT DEFAULT 201703001;
+		DECLARE LN VARCHAR(300);
+    DECLARE MN VARCHAR(200);
+    DECLARE FN VARCHAR(200);
+		DECLARE LN_N INT;
+    DECLARE MN_N INT;
+    DECLARE FN_N INT;
+		DECLARE TMP VARCHAR(1000);
+		SET LN='李王张刘陈杨黄赵周吴徐孙朱马胡郭林何高梁郑罗宋谢唐韩曹许邓萧冯曾程蔡彭潘袁于董余苏叶吕魏蒋田杜丁沈姜范江傅钟卢汪戴崔任陆廖姚方金邱夏谭韦贾邹石熊孟秦阎薛侯雷白龙段郝孔邵史毛常万顾赖武康贺严尹钱施牛洪龚';
+		SET MN='德绍宗邦裕傅家積善昌世贻维孝友继绪定呈祥大正启仕执必定仲元魁家生先泽远永盛在人为任伐风树秀文光谨潭棰';
+		SET FN='丽云峰磊亮宏红洪量良梁良粮靓七旗奇琪谋牟弭米密祢磊类蕾肋庆情清青兴幸星刑';
+		SET LN_N= LENGTH(LN);
+		SET MN_N=LENGTH(MN);
+		SET FN_N=LENGTH(FN);
+    WHILE i<=201703010 DO
+				SET TMP=CAST(SUBSTRING(LN,cast(RAND()*LN_N as SIGNED),1) AS CHAR);
+        SET TMP=CONCAT(TMP,CAST(SUBSTRING(MN,cast(RAND()*MN_N as SIGNED) ,1) AS CHAR));
+				SET TMP=CONCAT(TMP,CAST(SUBSTRING(FN,cast(RAND()*FN_N as SIGNED) ,1) AS CHAR));
+        INSERT INTO stu(stuno,name,psw,sex,phone,qq) VALUES(i,TMP,'123','男','1234567890','1234567890');
+        SET i = i+1;
+    END WHILE;
+END

@@ -1,0 +1,119 @@
+html {
+    height: 100%;
+}
+.lau-sign-body {
+    background-color: #f2f2f2;
+    padding: 150px 0;
+    position: relative;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+.lau-sign-link {
+    cursor: pointer;
+    color: #029789!important;
+}
+.lau-sign-link:hover {
+    opacity: 0.8;
+}
+.lau-sign-form {
+    width: 380px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    box-shadow: 0 0 20px 0 #999;
+    background-color: #fff;
+    padding: 15px;
+}
+.lau-sign-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #666;
+    padding: 15px;
+    letter-spacing: 5px;
+}
+.lau-sign-subtitle {
+    text-align: center;
+    color: #999;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+.layui-form-pane .layui-form-label {
+    width: 90px;
+    padding: 8px 0;
+}
+.layui-form-pane .layui-input-block {
+    margin-left: 90px;
+}
+.lau-sign-code input {
+    width: 130px;
+}
+.lau-sign-captcha {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    height: 36px;
+    max-width: 120px;
+    cursor: pointer;
+}
+.lau-sign-form.layui-form-pane .layui-form-checkbox {
+    margin-left: 0;
+}
+.lau-sign-forgot {
+    float: right;
+    margin-top: 9px;
+}
+.lau-sign-other .layui-icon {
+    font-size: 26px;
+    margin-right: 5px;
+}
+.layui-icon-login-qq {
+    color: #3492ED;
+}
+.layui-icon-login-wechat {
+    color: #4DAF29;
+}
+.layui-icon-login-weibo {
+    color: #CF1900;
+}
+.lau-sign-reg {
+    float: right;
+    margin-top: 3px;
+}
+.lau-sign-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px;
+    color: rgba(0,0,0,0.5);
+}
+.lau-sign-footer p {
+    height: 30px;
+    line-height: 30px;
+}
+.lau-sign-footer span {
+    padding: 0 5px;
+}
+.lau-sign-footer a {
+    color: rgba(0,0,0,0.5);
+}
+.lau-sign-footer a:hover {
+    color: rgba(0,0,0,1);
+}
+
+.lau-sign-sms {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 120px;
+}
+.lau-sign-lic {
+    float: right;
+    margin-top: 9px;
+}
+.lau-sign-login {
+    float: right;
+    margin-top: 3px;
+}

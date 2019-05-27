@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册LAU</title>
+
+
+    
+    <link rel="stylesheet" href="/Sys/css/layui.css">
+    <link rel="stylesheet" href="/Sys/css/sign.css">
+    
+    <link rel="stylesheet" href="/Sys/js/css/modules/layui-icon-extend/iconfont.css">
+     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/Sys/css/font.css">
+	<link rel="stylesheet" href="/Sys/css/xadmin.css">
+	
+	
+<script type="text/javascript"
+	src="/Sys/js/jquery-3.3.1.min.js"></script>
+    <script src="/Sys/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+
+
+</head>
+<body class="layui-unselect lau-sign-body" style="padding-top: 0px " >
+
+<form action="" class="layui-form">
+
+    <div class="layui-form-item" >
+     <div class="layui-inline">
+        <label class="layui-form-label" ><i class="iconfont layui-icon-extend-bianhao" id="num" >学号</i></label>
+        <div class="layui-input-block">
+            <input type="text" name="stuno" placeholder="请输入学号" autocomplete="off" class="layui-input" id="inputnum">
+        </div>
+ 	</div>
+
+    <div class="layui-inline">
+        <label class="layui-form-label"><i class="iconfont layui-icon-extend-ziyuan"></i> 姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+ </div>   
+    
+    <div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label"><i class="layui-icon layui-icon-password"></i> 密码</label>
+        <div class="layui-input-block">
+            <input type="password" name="psw" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    
+
+	   <div class="layui-inline">
+        <label class="layui-form-label"><i class="iconfont layui-icon-extend-xingbie2"></i> 性别</label>
+         <div class="layui-input-block" style="margin-right: 50px">
+      <input type="radio" name="sex" value="男" title="男" checked="">
+      <input type="radio" name="sex" value="女" title="女">
+      </div>
+    </div>
+    </div>
+
+	<div class="layui-form-item">
+	<div class="layui-inline">
+        <label class="layui-form-label"><i class="iconfont layui-icon-extend-QQ"></i>QQ</label>
+        <div class="layui-input-block">
+            <input type="text" name="qq" placeholder="请输入QQ" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+	<div class="layui-inline">
+        <label class="layui-form-label"><i class="iconfont layui-icon-extend-icon-test"></i>手机号</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    </div>
+
+	
+	
+
+  
+<div class="layui-upload" style="margin-top: 20px;text-align:center">
+ 
+    
+    <button type="button" class="layui-btn layui-btn-primary"  id="test1"><i class="layui-icon">&#xe67c;</i>选择文件</button>
+                  
+   <img   id="demo1"  style="width:30px;height:30px;padding-left: 200px;">
+</div>   
+    <div class="layui-form-item lau-sign-other" style="margin-top: 20px;text-align:center">
+        <button type="button" class="layui-btn layui-btn-normal" lay-submit lay-filter="register" style="margin-right: 100px">提交</button>
+       
+    </div>
+
+</form>
+
+</body>
+<script src="/Sys/lib/layui/layui.js"></script>
+<script>
+   $(function(){
+	  var imgpath;	  
+		var   url= 'registerStuDeal'
+	   layui.use('upload', function(){
+		   var $ = layui.jquery
+		   ,upload = layui.upload;
+		   //普通图片上传
+		   var uploadInst = upload.render({
+		     elem: '#test1'
+		     ,url: 'uploadImg'
+		    ,field:"photo"  //默认是file
+		     ,before: function(obj){
+		       //预读本地文件示例，不支持ie8
+		       obj.preview(function(index, file, result){
+		         $('#demo1').attr('src', result); //图片链接（base64）
+		       });
+		     }
+		     ,done: function(res){
+		       //如果上传失败
+		       if(res.code > 0){
+		         return layer.msg('上传失败');
+		       }
+		      imgpath=res.data;
+		       
+		     }
+		     ,error: function(){
+		       //演示失败状态，并实现重传
+		       var demoText = $('#demoText');
+		       demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+		       demoText.find('.demo-reload').on('click', function(){
+		         uploadInst.upload();
+		       });
+		     }
+		   });
+   });
+	   
+	   
+	   layui.use('form', function() {
+           var form = layui.form;
+          
+           //监听提交
+           form.on('submit(register)', function(data) {
+               var loginjson= JSON.stringify(data.field);
+               var logindata=JSON.parse(loginjson);
+				logindata.photo=imgpath;
+				data=JSON.stringify(logindata)
+				$.ajax({
+	               	 url : url,
+	                 data : data,
+	                 type:'POST',
+	                 dateType:'json', 
+	                 contentType : 'application/json',
+	                 success:function(data){
+	                	if(data=="success"){
+	                		layer.msg("注册成功！",function(){
+	                            
+	                        });
+	                	}
+	                 },
+	                 error:function(args){
+	                	 layer.msg("账号已经存在或者信息未填完整，注册失败！",function(){
+	                         
+	                     });
+	                 }
+	               	});
+              		
+           });
+       });   
+   });
+   
+</script>
+</html>

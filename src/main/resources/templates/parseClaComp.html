@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" href="/Sys/css/layui.css">
+<link rel="stylesheet" href="/Sys/css/sign.css">
+
+<link rel="stylesheet"
+	href="/Sys/js/css/modules/layui-icon-extend/iconfont.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/Sys/css/font.css">
+<link rel="stylesheet" href="/Sys/css/xadmin.css">
+<script type="text/javascript"
+	src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/Sys/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
+<script type="text/javascript" src="/Sys/js/echarts.js"></script>
+
+<body>
+
+
+
+
+	<div class="x-nav">
+		<span class="layui-breadcrumb"> <a href="">首页</a> <a href="">演示</a>
+			<a> <cite>导航元素</cite></a>
+		</span> <a class="layui-btn layui-btn-small"
+			style="line-height: 1.6em; margin-top: 3px; float: right"
+			href="javascript:location.replace(location.href);" title="刷新"> <i
+			class="layui-icon" style="line-height: 30px">ဂ</i></a>
+	</div>
+	<div class="x-body">
+		<div class="layui-row">
+
+
+
+			<div class="layui-form-item">
+
+				<label class="layui-form-label">选择年级：</label>
+				<div class="layui-input-inline layui-form">
+					<select lay-filter="grade">
+						<option value="2016">2016</option>
+						<option value="2017">2017</option>
+						<option value="2018">2018</option>
+					</select>
+				</div>
+
+
+
+				<label class="layui-form-label">选择科目：</label>
+				<div class="layui-input-inline layui-form">
+					<select lay-filter="coursename">
+						<option value="高数">高数</option>
+						<option value="java">java</option>
+						<option value="linux">linux</option>
+						<option value="javaWeb">javaWeb</option>
+						<option value="android">android</option>
+						<option value="数据结构">数据结构</option>
+						<option value="数据库">数据库</option>
+					</select>
+				</div>
+
+			</div>
+
+			<table id="test" lay-filter="test"></table>
+		</div>
+
+		<div id="main" style="width: 600px; height: 400px;"></div>
+</body>
+
+<script type="text/javascript">
+	var grade = "2016";
+	var coursename = "java";
+
+	var chart = document.getElementById('main');
+	var echart = echarts.init(chart);
+
+	//生成图形
+	function buildChart(columLabel, columName, columnValue) {
+		var option = {
+			tooltip : {
+				trigger : 'axis',
+				axisPointer : {
+					type : 'shadow'
+				}
+			},
+			toolbox : {
+				show : true,
+				feature : {
+					saveAsImage : {
+						show : true
+					}
+				}
+			},
+			legend : {
+				data : columLabel
+			},
+			grid : {
+				left : '3%',
+				right : '4%',
+				bottom : '3%',
+				containLabel : true
+			},
+			xAxis : [ {
+				min : 0,
+				type : 'category',
+				data : columName
+			} ],
+			yAxis : [ {
+				min : 0,
+				type : 'value'
+			} ],
+			series : columnValue
+	};
+	
+	echart.setOption(option);
+}
+
+
+
+
+$.ajax({
+		type : "post",
+		async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+		url : "getGscomp", //请求发送到TestServlet处
+		data : {
+			"coursename" : coursename,
+			"grade" : grade
+		},
+		dataType : "json", //返回数据形式为json
+		success : function(result) {
+			var columLabel = [ '平均数', '最大数', '中位数' ];
+			var columName = [ '一班', '二班', '三班' ];
+			var columnValue = new Array();
+
+			for (var i = 0; i < columName.length; i++) {
+				for (var j = 0; j < columLabel.length; j++) {
+
+				}
+
+				console.info(eval('('
+						+ ("{'name':'" + columLabel[i]
+								+ "','type':'bar','data':[" + result[i] + "]}")
+						+ ')'))
+				columnValue.push(eval('('
+						+ ("{'name':'" + columLabel[i]
+								+ "','type':'bar','data':[" + result[i] + "]}")
+						+ ')'));
+
+			}
+
+			buildChart(columLabel, columName, columnValue);
+
+		},
+		error : function(errorMsg) {
+			//请求失败时执行该函数
+			alert("图表请求数据失败!");
+			echart.hideLoading();
+		}
+	})
+
+	layui.use([ 'table', 'form' ], function() {
+		var form = layui.form;
+		form.render();
+		form.on('select(coursename)', function(data) {
+			coursename = data.value;
+			$.ajax({
+				type : "post",
+				async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+				url : "getGscomp", //请求发送到TestServlet处
+				data : {
+					"coursename" : coursename,
+					"grade" : grade
+				},
+				dataType : "json", //返回数据形式为json
+				success : function(result) {
+					var columLabel = [ '平均数', '最大数', '中位数' ];
+					var columName = [ '一班', '二班', '三班' ];
+					var columnValue = new Array();
+
+					for (var i = 0; i < columName.length; i++) {
+						for (var j = 0; j < columLabel.length; j++) {
+
+						}
+
+						console
+								.info(eval('('
+										+ ("{'name':'" + columLabel[i]
+												+ "','type':'bar','data':["
+												+ result[i] + "]}") + ')'))
+						columnValue
+								.push(eval('('
+										+ ("{'name':'" + columLabel[i]
+												+ "','type':'bar','data':["
+												+ result[i] + "]}") + ')'));
+
+					}
+
+					buildChart(columLabel, columName, columnValue);
+
+				},
+				error : function(errorMsg) {
+					//请求失败时执行该函数
+					alert("图表请求数据失败!");
+					echart.hideLoading();
+				}
+			})
+
+			echart.setOption(option, true);
+		});
+
+		form.on('select(grade)', function(data) {
+			grade = data.value;
+			$.ajax({
+				type : "post",
+				async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+				url : "getGscomp", //请求发送到TestServlet处
+				data : {
+					"coursename" : coursename,
+					"grade" : grade
+				},
+				dataType : "json", //返回数据形式为json
+				success : function(result) {
+					var columLabel = [ '平均数', '最大数', '中位数' ];
+					var columName = [ '一班', '二班', '三班' ];
+					var columnValue = new Array();
+
+					for (var i = 0; i < columName.length; i++) {
+						for (var j = 0; j < columLabel.length; j++) {
+
+						}
+
+						console
+								.info(eval('('
+										+ ("{'name':'" + columLabel[i]
+												+ "','type':'bar','data':["
+												+ result[i] + "]}") + ')'))
+						columnValue
+								.push(eval('('
+										+ ("{'name':'" + columLabel[i]
+												+ "','type':'bar','data':["
+												+ result[i] + "]}") + ')'));
+
+					}
+
+					buildChart(columLabel, columName, columnValue);
+
+				},
+				error : function(errorMsg) {
+					//请求失败时执行该函数
+					alert("图表请求数据失败!");
+					echart.hideLoading();
+				}
+			})
+
+			echart.setOption(option, true);
+		});
+
+	});
+</script>
+
+
+
+</html>

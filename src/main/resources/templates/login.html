@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>登录LAU</title>
+<link rel="stylesheet" href="/Sys/css/layui.css">
+<link rel="stylesheet" href="/Sys/css/sign.css">
+
+<link rel="stylesheet"
+	href="/Sys/js/css/modules/layui-icon-extend/iconfont.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/Sys/css/font.css">
+<link rel="stylesheet" href="/Sys/css/xadmin.css">
+<script type="text/javascript"
+	src="/Sys/js/jquery-3.3.1.min.js"></script>
+<script src="/Sys/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
+
+
+
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+</head>
+<body class="layui-unselect lau-sign-body"
+	style="background-image: url('/Sys/images/mybg.jpg'); background-repeat: no-repeat; ">
+
+	<form action="www.baidu.com" class="layui-form" id="myForm">
+		<div class="layui-form layui-form-pane lau-sign-form">
+			<h1 class="lau-sign-title">学生成绩管理系统</h1>
+			<p class="lau-sign-subtitle">by WonderfulMorty</p>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i
+					class="iconfont layui-icon-extend-bianhao"></i> 账号</label>
+				<div class="layui-input-block">
+					<input type="text" name="num" placeholder="请输入用户名"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label"><i
+					class="layui-icon layui-icon-password"></i> 密码</label>
+				<div class="layui-input-block">
+					<input type="password" name="psw" placeholder="请输入密码"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+
+				<div class="layui-form-item">
+					<label class="layui-form-label" id="myradio"><i
+						class="iconfont layui-icon-extend-ziyuan"></i>身份</label>
+					<div class="layui-input-block">
+						<input type="radio" name="identify" value="0" title="管理员"
+							lay-filter="iden" /> <input type="radio" name="identify"
+							value="1" title="教师" lay-filter="iden" /> <input type="radio"
+							name="identify" value="2" title="学生" lay-filter="iden" />
+					</div>
+				</div>
+
+			</div>
+			<div class="layui-form-item" id="loginsub">
+				<button type="button" class="layui-btn layui-btn-fluid" lay-submit
+					lay-filter="login">登 入</button>
+			</div>
+			<div class="layui-form-item lau-sign-other">
+				<a href="javascript:;"><i class="layui-icon layui-icon-login-qq"></i></a>
+				<a href="javascript:;"><i
+					class="layui-icon layui-icon-login-wechat"></i></a> <a
+					href="javascript:;"><i
+					class="layui-icon layui-icon-login-weibo"></i></a> <a
+					onclick="goToRes()" class="lau-sign-reg lau-sign-link"></a>
+			</div>
+
+		</div>
+	</form>
+
+</body>
+<script src="/Sys/js/layui.js"></script>
+
+
+<script type="text/javascript">
+	var idendata = "";
+	$(function() {
+		layui.use('form', function() {
+			var form = layui.form;
+			//监听提交
+			form.on('submit(login)', function(data) {
+				var loginjson = JSON.stringify(data.field);
+				var logindata = JSON.parse(loginjson);
+				var identify = logindata.identify;
+				if (identify == 0 || identify == 1 || identify == 2) {
+					$.ajax({
+						url : "dealLogin",
+						data : logindata,
+						type : 'POST',
+						success : function(data) {
+							if (data != "fail") {
+								layer.msg("登录成功！！！", function() {
+									if(identify==0){
+										location.href="adminIndex"
+									}else if(identify==1){
+										location.href="teacherIndex"
+									}else if(identify==2){
+										location.href="stuIndex"
+									}	
+								});
+							} else {
+								layui.use('layer', function() {
+									var layer = layui.layer;
+									layer.open({
+										type : 4,
+										content : [ "账号或者密码或者身份不匹配",
+												"#loginsub" ],
+										shade : 0,
+										tips : [ 2, '#c00' ],
+										closeBtn : 0,
+										time : 2000,
+
+									})
+								});
+							}
+						}
+					});
+				} else {
+					layui.use('layer', function() {
+						var layer = layui.layer;
+						layer.open({
+							type : 4,
+							content : [ "没有选择身份", "#myradio" ],
+							shade : 0,
+							tips : [ 4, '#91d' ],
+							closeBtn : 0,
+							time : 2000,
+
+						})
+					});
+				}
+
+			});
+		});
+
+		layui.use('form', function() {
+			var form = layui.form;
+			form.on('radio(iden)', function(data) {
+				idendata = data.value;
+			});
+		});
+
+	});
+
+	function goToRes() {
+
+		layui.use('layer', function() {
+			var layer = layui.layer;
+			if (idendata == null || idendata == "") {
+				layer.open({
+					type : 4,
+					content : [ "没有选择身份", "#myradio" ],
+					shade : 0,
+					tips : [ 4, '#91d' ],
+					closeBtn : 0,
+					time : 2000,
+				})
+
+			} else if (idendata == 0) {
+				layer.open({
+					type : 4,
+					content : [ "管理员不能被注册", "#myradio" ],
+					shade : 0,
+					tips : [ 4, '#91d' ],
+					closeBtn : 0,
+					time : 2000,
+				});
+			}
+			else if (idendata == 1){
+				layer.open(
+		                {
+		                    type: 2,
+		                    title: '增加页面',
+		                    skin: 'layui-layer-lan',
+		                    shadeClose: false,
+		                    shade: 0.8,
+		                    area:  ['700px', '450px'],
+		                    resize:true,
+		                    content:'teaAdd',
+		                    end: function(){
+		                    	window.location.reload(); //刷新父页面
+		                    }
+		                });
+			}
+			else if (idendata == 2){
+				layer.open(
+		                {
+		                    type: 2,
+		                    title: '增加页面',
+		                    skin: 'layui-layer-lan',
+		                    shadeClose: false,
+		                    shade: 0.8,
+		                    area:  ['700px', '450px'],
+		                    resize:true,
+		                    content:'stuAdd',
+		                    end: function(){
+		                    	window.location.reload(); //刷新父页面
+		                    }
+		                });
+			}
+			
+		});
+
+		
+		
+		
+	}
+</script>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册LAU</title>
+
+
+    
+    <link rel="stylesheet" href="/Sys/css/layui.css">
+    <link rel="stylesheet" href="/Sys/css/sign.css">
+    
+    <link rel="stylesheet" href="/Sys/js/css/modules/layui-icon-extend/iconfont.css">
+     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/Sys/css/font.css">
+	<link rel="stylesheet" href="/Sys/css/xadmin.css">
+	<link rel="stylesheet" href="/Sys/css/formSelects-v4.css" />
+<script type="text/javascript"
+	src="/Sys/js/jquery-3.3.1.min.js"></script>
+    <script src="/Sys/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="./js/xadmin.js"></script>
+        <script src="/Sys/js/formSelects-v4.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+    <body>
+    <div class="x-body layui-anim layui-anim-up">
+        <blockquote class="layui-elem-quote">欢迎：<span
+					th:text="${session.name}"></span><img
+					th:src="@{/uploads/{filename}(filename=${session.photo})}"
+					th:if="${session.account!='admin'}" /> <img
+					th:src="@{/Sys/images/my1.png}" th:if="${session.account=='admin'}" />
+          当前日期:[[${#dates.format(new java.util.Date().getTime(), 'yyyy-MM-dd')}]]</blockquote>
+       黄冈师范学院 编辑 讨论
+Huanggang Normal College
+黄冈师范学院（Huanggang Normal College [1-2]  ），简称“黄冈师院” [1]  ，位于湖北省黄冈市，是一所涵盖理学、工学、农学、经济学、文学、法学、教育学、管理学、艺术学等九大学科门类的省属全日制多科性普通本科高等院校，拥有硕士学位授予权。 [3] 
+黄冈师范学院前身是创建于1905年的“黄州府师范学堂”，后历经“省立黄冈乡村师范学校”、“湖北省立黄冈师范学校”、“黄冈师范高等专科学校”等发展阶段；1999年3月，经教育部批准，学校升格为本科层次的“黄冈师范学院”；2011年10月，学校获得硕士学位授予权；2014年1月，学校与原鄂东职业技术学院进行合并。 [3] 
+截至2016年5月，黄冈师范学院共有南区、北区、西区三个校区，校园总面积1636.15亩，建筑面积61.26万平方米；设有18个教学学院，开办本科专业61个，专科专业13个；有专任教师959人，其中教授、副教授407人；有全日制在校学生1.6万余人。
+    </body>
+</html>

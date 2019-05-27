@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+   <link rel="stylesheet" href="/Sys/css/layui.css">
+<link rel="stylesheet" href="/Sys/css/sign.css">
+
+
+<link rel="stylesheet"
+	href="/Sys/js/css/modules/layui-icon-extend/iconfont.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/Sys/css/font.css">
+<link rel="stylesheet" href="/Sys/css/xadmin.css">
+
+
+
+
+<script type="text/javascript"
+	src="/Sys/js/jquery-3.3.1.min.js"></script>
+<script src="/Sys/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
+<script type="text/javascript" src = "/Sys/js/jquery.table2excel.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+       
+
+ <div class="demoTable" style="margin-bottom: 20px">
+  搜索姓名：
+  <div class="layui-inline">
+    <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+  </div>
+  <button class="layui-btn" data-type="reload" ><i class="layui-icon">&#xe615;</i></button>
+</div>   
+
+
+
+      </div>
+      
+      <xblock >
+        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn" onclick="stuAdd()"><i class="layui-icon"></i>添加</button>
+      </xblock>
+  <table id="test" lay-filter="test"></table>
+  
+    </div>   
+  </body>
+  
+  <script type="text/html" id="barDemo">
+    <a title="修改信息 "   onclick="stuModi()" href="javascript:;">
+                <i class="layui-icon">&#xe642;</i>
+              </a>
+              <a title="删除"  onclick="deleteStu()" href="javascript:;" lay-event="edit">
+                <i class="layui-icon">&#xe640;</i>
+              </a>
+</script>
+  
+  
+  
+  <script >
+  var documentWidth = $(document).width();
+  layui.use('table', function(){
+      var table = layui.table;
+      table.render({
+          elem: '#test'  //绑定table表格
+          ,id:'stuInfo'
+          ,method:'post'
+          ,url: 'getStuInfo' //后台springmvc接收路径
+          ,page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+  	        layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	      //,curr: 5 //设定初始在第 5 页
+	      ,groups: 1 //只显示 1 个连续页码
+	      ,first: false //不显示首页
+	      ,last: false //不显示尾页
+	      ,limit:5
+	      ,limits:[5,10,15]
+	    }
+          ,cols: [
+        	  [
+             {type: 'checkbox',width:documentWidth*4/100} 
+              ,{field:'stuno',title:'学号', width:documentWidth*10/100, sort: true}
+              ,{field:'name', title:'姓名', width:documentWidth*8/100}
+              ,{field:'sex',title:'性别',width:documentWidth*8/100}
+              ,{field:'phone', title:'手机号', width:documentWidth*10/100}
+              ,{field:'qq', title:'qq号', width:documentWidth*10/100}
+              ,{field: 'photo', title: '用户头像',templet:function(d){
+            	     return d.photo == null ? 
+            	  '<a><img src="/Sys/images/defaultUser.png"></a>':
+            		  '<a><img src="../uploads/'+d.photo+'"></a>';
+              },edit: 'file'} 
+              /* ,{field: 'photo', title: '用户头像',templet:'<a><img src="../uploads/{{d.photo}}"></a>'
+            	  ,edit: 'file'} */
+              ,{field:'operation',title:'操作',toolbar: '#barDemo'}
+          ]
+        	  ]
+      });
+    
+      
+	  var $ = layui.$, active = {
+    		    reload: function(){
+    		      var demoReload = $('#demoReload');
+    		      table.reload('stuInfo', {
+    		        page: {
+    		          curr: 1 //重新从第 1 页开始
+    		        },
+    		    url:'getStuByName'
+    		        ,where: {
+    		          key: {
+    		            id: demoReload.val()
+    		          }
+    		        }
+    		        ,method:'post'
+    		      });
+    		    }
+    		  };
+    		  
+    		  $('.demoTable .layui-btn').on('click', function(){
+    		    var type = $(this).data('type');
+    		    active[type] ? active[type].call(this) : '';
+    		  });	  
+  	     		  
+    		});
+
+
+  
+
+  function delAll (argument) {
+	  layui.use('table',function(){
+	  var table = layui.table
+	  var checkStatus = table.checkStatus('stuInfo');
+	  if(checkStatus.data.length==0){
+			parent.layer.msg('请先选择要删除的数据行！', {icon: 2});
+			return ;
+		}
+		var nums = "";
+		for(var i=0;i<checkStatus.data.length;i++){
+			nums += checkStatus.data[i].stuno+",";
+		}
+		
+		parent.layer.msg('删除中...', {icon: 16,shade: 0.3,time:5000});
+
+		$.ajax({
+			url:'deleteStus',
+			data:{'nums':nums},
+			type:'post',
+			success:function(data){
+				 if(data=="success"){
+				        parent.layer.msg('删除成功！', {icon: 1,time:2000,shade:0.2});
+				        location.reload(true);
+			        }else{
+				        parent.layer.msg('删除失败！', {icon: 2,time:3000,shade:0.2});
+			        }
+			}
+		});      
+      });
+      
+    }
+  
+  function deleteStu(){
+	  layui.use('table',function(){
+		  var table = layui.table
+		  var checkStatus = table.checkStatus('stuInfo');
+		  var num = checkStatus.data[0].stuno;
+			$.ajax({
+				url:'deleteStu',
+				data:{'num':num},
+				type:'post',
+				success:function(data){
+					if(data=="success"){
+					    parent.layer.msg('删除成功！', {icon: 1,time:2000,shade:0.2});
+					    location.reload(true);
+					}else{
+				        parent.layer.msg('删除失败！', {icon: 2,time:3000,shade:0.2});
+			        }
+				}
+			});
+	  }); 
+  }
+  
+  function stuAdd(){
+	  	
+    	layer.open(
+                {
+                    type: 2,
+                    title: '增加页面',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    shade: 0.8,
+                    area:  ['700px', '450px'],
+                    resize:true,
+                    content:'stuAdd',
+                    end: function(){
+                    	window.location.reload(); //刷新父页面
+                    }
+                });
+    	 
+    }
+  
+  function stuModi(){
+	  var num="";
+	  layui.use('table',function(){
+		  var table = layui.table
+		  var checkStatus = table.checkStatus('stuInfo');
+		  num = checkStatus.data[0].stuno;
+	  });
+	  layer.open({
+		  type: 2,
+          title: '修改页面',
+          skin: 'layui-layer-molv',
+          shadeClose: false,
+          shade: 0.8,
+          area:  ['700px', '450px'],
+          content: 'stuModi?num='+num,
+          end: function(){
+          	window.location.reload(); //刷新父页面
+          }
+	  });
+  }
+  
+  
+  function screen() {
+      //获取当前窗口的宽度
+	    var width = $(window).width();
+	    if (width > 1200) {
+	        return 3;   //大屏幕
+	    } else if (width > 992) {
+	        return 2;   //中屏幕
+	    } else if (width > 768) {
+	        return 1;   //小屏幕
+	    } else {
+	        return 0;   //超小屏幕
+	    }
+  }
+  
+  
+  
+  
+  
+  function exportTable(){
+	  location.href="/Sys/export";  
+  }
+  
+
+  layui.use(['form','layer','table','upload'], function(){
+      var table = layui.table
+      ,form = layui.form,upload = layui.upload;
+       var uploadInst = upload.render({
+        elem: '#uploadExcel'
+        , exts: "xls"
+        ,url: '/Sys/ImportStu'
+      });
+
+})
+
+
+
+
+</script>  
+  
+</html>

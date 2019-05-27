@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhengyuan.liunao.mapper.GcCourseMapper">
+
+	<select id="findScores" resultType="com.zhengyuan.liunao.entity.Scores">
+		select
+		s.stuno,s.name,c.coursename,ss.score,ss.type from stu s
+		inner join stu_sco ss
+		on ss.stuno=s.stuno
+		inner join course c
+		on c.courseid = ss.courseid
+		where c.coursename = #{0} and ss.type=#{1} and s.stuno like CONCAT(CONCAT('%',#{2},#{3}),'%')
+		limit #{4},#{5}
+	</select>
+	
+	
+	<select id="findAllScores" resultType="com.zhengyuan.liunao.entity.Scores">
+		select
+		s.stuno,s.name,c.coursename,ss.score,ss.type from stu s
+		inner join stu_sco ss
+		on ss.stuno=s.stuno
+		inner join course c
+		on c.courseid = ss.courseid
+		where c.coursename = #{0} and ss.type=#{1} and s.stuno like CONCAT(CONCAT('%',#{2},#{3}),'%')
+	</select>
+	
+	
+	
+	<select id="compClaScores" resultType="com.zhengyuan.liunao.entity.Scores">
+		select
+		s.stuno,s.name,c.coursename,ss.score,ss.type from stu s
+		inner join stu_sco ss
+		on ss.stuno=s.stuno
+		inner join course c
+		on c.courseid = ss.courseid
+		where c.coursename = #{0} and ss.type='已批改' and s.stuno like CONCAT(CONCAT('%',#{1}),'%')
+	</select>
+	
+	
+	
+	
+		<select id="countScores" resultType="com.zhengyuan.liunao.entity.Scores">
+		select
+		s.stuno,s.name,c.coursename,ss.score,ss.type from stu s
+		inner join stu_sco ss
+		on ss.stuno=s.stuno
+		inner join course c
+		on c.courseid = ss.courseid
+		where c.coursename = #{0} and ss.type=#{1} and s.stuno like CONCAT(CONCAT('%',#{2},#{3}),'%')
+		limit #{4},#{5}
+	</select>
+	
+	
+	
+	 <update id="updateScores">	
+		update stu_sco
+		 <trim prefix="set" suffixOverrides=",">
+			  <if test="score!=null">score=#{score},</if>
+			  <if test="type!=null">type=#{type},</if>
+		 </trim>
+		where stuno=#{stuno} and courseid=(
+select courseid 
+from course
+where coursename = #{coursename}
+)
+	</update>
+	
+	
+	
+	
+	
+	<select id="findPersonScore" resultType="com.zhengyuan.liunao.entity.Scores">
+			select
+		s.stuno,s.name,c.coursename,ss.score,ss.type from stu s
+		inner join stu_sco ss
+		on ss.stuno=s.stuno
+		inner join course c
+		on c.courseid = ss.courseid
+		where c.coursename = #{0}  and s.stuno =#{1}
+	</select>
+	
+	
+
+</mapper>
+
+
+

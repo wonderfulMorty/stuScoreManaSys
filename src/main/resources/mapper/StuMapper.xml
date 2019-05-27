@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhengyuan.liunao.mapper.StuMapper">
+    <select id="findStu" resultType="com.zhengyuan.liunao.entity.Stu">
+      select * from stu where stuno=#{0} and psw=#{1}
+    </select>
+
+    
+     <insert id="addStu" >
+        insert into stu(stuno,name,psw,sex,phone,qq,photo)values (#{stuno},#{name},#{psw},#{sex},#{phone},#{qq},#{photo})
+    </insert>
+    
+
+
+	 <select id="findAllStu" resultType="com.zhengyuan.liunao.entity.Stu">
+      select * from    Stu   order by stuno limit #{start},#{pagesize}
+    </select>
+    
+    
+	 
+	  <select id="findAll" resultType="com.zhengyuan.liunao.entity.Stu">
+      select * from    Stu  
+    </select>
+    
+     <select id="findStuByName" resultType="com.zhengyuan.liunao.entity.Stu">
+        select * from stu where name like CONCAT(CONCAT('%',#{0}),'%') limit #{1},#{2}
+    </select>
+
+
+	<select id="stuCount" resultType="Integer">
+		select count(id) from stu
+    </select>
+	
+	
+	<select id="echartStu" resultType="com.zhengyuan.liunao.entity.Stu">
+        select * from stu
+    </select>
+    
+ 	<delete id="deleteByForeach">
+		delete from stu where stuno in
+		<foreach collection="list" item="num" open="(" close=")" separator=",">
+			#{num}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteStu">
+	 	delete  from stu where stuno = #{0}
+	</delete>
+
+
+	<select id = "getStuByNum" resultType="com.zhengyuan.liunao.entity.Stu">
+		select * from stu where stuno= #{stuno}
+	</select>
+	
+	<update id="updateStu">	
+		update stu 
+		 <trim prefix="set" suffixOverrides=",">
+			  <if test="stuno!=null">stuno=#{stuno},</if>
+			  <if test="name!=null">name=#{name},</if>
+			  <if test="psw!=null">psw=#{psw},</if>
+			  <if test="sex!=null">sex=#{sex},</if>
+			  <if test="phone!=null">phone=#{phone},</if>
+			  <if test="qq!=null">qq=#{qq},</if>
+			   <if test="photo!=null">photo=#{photo},</if>
+		 </trim>
+		WHERE id in (select id from (select id from stu where stuno = #{oldNum}) t1 )
+	</update>
+	
+	<select id = "getScoreByStuName" resultType="com.zhengyuan.liunao.entity.Scores">
+		select ss.stuno,s.name,c.coursename,ss.score,ss.type  from stu_sco ss
+inner JOIN course c
+on c.courseid = ss.courseid
+inner join stu s
+on s.stuno = ss.stuno
+where s.name = #{0}
+	</select>
+	
+	
+</mapper>

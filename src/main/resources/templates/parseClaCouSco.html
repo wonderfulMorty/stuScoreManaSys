@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" href="/Sys/css/layui.css">
+<link rel="stylesheet" href="/Sys/css/sign.css">
+
+<link rel="stylesheet"
+	href="/Sys/js/css/modules/layui-icon-extend/iconfont.css">
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" href="/Sys/css/font.css">
+<link rel="stylesheet" href="/Sys/css/xadmin.css">
+<script type="text/javascript"
+	src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/Sys/lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/xadmin.js"></script>
+<script type="text/javascript" src="/Sys/js/echarts.js"></script>
+
+<body>
+
+
+
+
+	<div class="x-nav">
+		<span class="layui-breadcrumb"> <a href="">首页</a> <a href="">演示</a>
+			<a> <cite>导航元素</cite></a>
+		</span>       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+	</div>
+	<div class="x-body">
+		<div class="layui-row">
+
+
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">选择年级：</label>
+				<div class="layui-input-inline layui-form">
+					<select lay-filter="grade">
+						<option value="2016">2016</option>
+						<option value="2017">2017</option>
+						<option value="2018">2018</option>
+					</select>
+				</div>
+
+				<label class="layui-form-label">选择班级：</label>
+				<div class="layui-input-inline layui-form">
+					<select lay-filter="cla">
+						<option value="01">01</option>
+						<option value="02">02</option>
+						<option value="03">03</option>
+					</select>
+				</div>
+
+
+
+				<label class="layui-form-label">选择科目：</label>
+				<div class="layui-input-inline layui-form">
+					<select lay-filter="coursename">
+						<option value="高数">高数</option>
+						<option value="java">java</option>
+						<option value="linux">linux</option>
+						<option value="javaWeb">javaWeb</option>
+						<option value="android">android</option>
+						<option value="数据结构">数据结构</option>
+						<option value="数据库">数据库</option>
+					</select>
+				</div>
+				
+			</div>
+
+			<table id="test" lay-filter="test"></table>
+		</div>
+
+		<div id="main" style="width: 600px; height: 400px;"></div>
+</body>
+
+<script type="text/javascript">
+var grade = "2016";
+var cla="01";
+var coursename="高数";
+var table = layui.table;
+
+//饼图模板
+var dom = document.getElementById("main");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+option = {
+        title : {
+            text: '班级科目成绩分析饼状图',
+            subtext: '0~59:不及格；61~69:较差；70~79:一般；80~89:良；90以上：优',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+            orient : 'vertical',
+            x : 'left',
+            data:[]
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {
+                    show: true, 
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'',
+                type:'pie',
+                radius : '55%',
+                center: ['50%', '60%'],
+                data:[]
+            }
+        ]
+    };
+
+
+layui.use(['table','form'],function(){
+    var form = layui.form; 
+    form.render();
+   form.on('select(grade)',function(data){
+  	  grade = data.value;
+  	 $.ajax({
+  		           type: "post",
+  		           url: 'getGcsCount',
+  		           data : {"coursename":coursename,"grade":grade,"cla":cla,type:"已批改"},
+  		           cache : false,    //禁用缓存
+  		           dataType: "json",
+  		           success: function(result) {
+  					
+  		                var names=[];//定义两个数组
+  		                  var nums=[];
+  		                   if (result) {
+  			  $.each(result,function(key,values){ //此处我返回的是list<String,map<String,String>>循环map
+  				                      names.push(values.quality);
+  				                      var obj = new Object();
+  				                      obj.name = values.quality;
+  				                      obj.value = values.count;
+  				                      nums.push(obj);
+  				                   });
+  			
+  						   }
+  		                myChart.setOption({ //加载数据图表
+  		                          legend: {
+  		                                data: names
+  		                               },
+  		                        series: {
+  		                                // 根据名字对应到相应的系列
+  		                                name: ['数量'],
+  		                                data: nums,
+  										type:'pie'
+  		                                }    
+  		           });
+
+  		           },
+  		           error: function(XMLHttpRequest, textStatus, errorThrown) {
+  		               alert("查询失败");
+  		           }
+
+
+  		       });
+     myChart.setOption(option, true);
+     
+    })
+    
+    form.on('select(cla)',function(data){
+  	  cla = data.value;
+  	 $.ajax({
+  		           type: "post",
+  		           url: 'getGcsCount',
+  		           data : {"coursename":coursename,"grade":grade,"cla":cla,type:"已批改"},
+  		           cache : false,    //禁用缓存
+  		           dataType: "json",
+  		           success: function(result) {
+  					
+  		                var names=[];//定义两个数组
+  		                  var nums=[];
+  		                   if (result) {
+  			  $.each(result,function(key,values){ //此处我返回的是list<String,map<String,String>>循环map
+  				                      names.push(values.quality);
+  				                      var obj = new Object();
+  				                      obj.name = values.quality;
+  				                      obj.value = values.count;
+  				                      nums.push(obj);
+  				                   });
+  			
+  						   }
+  		                myChart.setOption({ //加载数据图表
+  		                          legend: {
+  		                                data: names
+  		                               },
+  		                        series: {
+  		                                // 根据名字对应到相应的系列
+  		                                name: ['数量'],
+  		                                data: nums,
+  										type:'pie'
+  		                                }    
+  		           });
+
+  		           },
+  		           error: function(XMLHttpRequest, textStatus, errorThrown) {
+  		               alert("查询失败");
+  		           }
+
+
+  		       });
+  	myChart.setOption(option, true);
+    })
+    
+    form.on('select(coursename)',function(data){
+  	  coursename = data.value;
+  	 $.ajax({
+  		           type: "post",
+  		           url: 'getGcsCount',
+  		           data : {"coursename":coursename,"grade":grade,"cla":cla,type:"已批改"},
+  		           cache : false,    //禁用缓存
+  		           dataType: "json",
+  		           success: function(result) {
+  					
+  		                var names=[];//定义两个数组
+  		                  var nums=[];
+  		                   if (result) {
+  			  $.each(result,function(key,values){ //此处我返回的是list<String,map<String,String>>循环map
+  				                      names.push(values.quality);
+  				                      var obj = new Object();
+  				                      obj.name = values.quality;
+  				                      obj.value = values.count;
+  				                      nums.push(obj);
+  				                   });
+  			
+  						   }
+  		                myChart.setOption({ //加载数据图表
+  		                          legend: {
+  		                                data: names
+  		                               },
+  		                        series: {
+  		                                // 根据名字对应到相应的系列
+  		                                name: ['数量'],
+  		                                data: nums,
+  										type:'pie'
+  		                                }    
+  		           });
+
+  		           },
+  		           error: function(XMLHttpRequest, textStatus, errorThrown) {
+  		               alert("查询失败");
+  		           }
+
+
+  		       });
+  	myChart.setOption(option, true);
+    }) 
+    
+
+     $.ajax({
+  		           type: "post",
+  		           url: 'getGcsCount',
+  		           data : {"coursename":coursename,"grade":grade,"cla":cla,type:"已批改"},
+  		           cache : false,    //禁用缓存
+  		           dataType: "json",
+  		           success: function(result) {
+  					
+  		                var names=[];//定义两个数组
+  		                  var nums=[];
+  		                   if (result) {
+  			  $.each(result,function(key,values){ //此处我返回的是list<String,map<String,String>>循环map
+  				                      names.push(values.quality);
+  				                      var obj = new Object();
+  				                      obj.name = values.quality;
+  				                      obj.value = values.count;
+  				                      nums.push(obj);
+  				                   });
+  			
+  						   }
+  		                myChart.setOption({ //加载数据图表
+  		                          legend: {
+  		                                data: names
+  		                               },
+  		                        series: {
+  		                                // 根据名字对应到相应的系列
+  		                                name: ['数量'],
+  		                                data: nums,
+  										type:'pie'
+  		                                }    
+  		           });
+
+  		           },
+  		           error: function(XMLHttpRequest, textStatus, errorThrown) {
+  		               alert("查询失败");
+  		           }
+
+
+  		       });
+     
+//饼图动态赋值
+   myChart.setOption(option, true);
+
+});
+
+
+    
+
+
+
+    
+		
+
+
+
+
+    </script>
+
+
+
+</html>
