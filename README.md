@@ -37,14 +37,14 @@
 (https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-50-27.png?raw=true)
 
 2.管理员界面：
-(https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-51-46.png?raw=true)
+![1](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-51-46.png?raw=true)
 
-(https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-01.png?raw=true)
+![2](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-01.png?raw=true)
 
-(https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-17.png?raw=true)
+![3](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-17.png?raw=true)
 
-(https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-35.png?raw=true)
+![4](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-52-35.png?raw=true)
 
-(https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-04.png?raw=true)
+![5]https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-04.png?raw=true)
 
-(https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-14.png?raw=true)
+![6](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-14.png?raw=true)
