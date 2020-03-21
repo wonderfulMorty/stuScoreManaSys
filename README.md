@@ -49,3 +49,7 @@
 ![5](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-04.png?raw=true)
 
 ![6](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-15.png?raw=true)
+
+四、运行视频
+链接：https://pan.baidu.com/s/1tu9Dqi8WQoMhUdj-h-92IQ
+提取码：11z3
