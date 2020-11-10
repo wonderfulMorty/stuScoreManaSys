@@ -51,3 +51,5 @@
 ![6](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-15.png?raw=true)
 
 
+近期将使用shiro+redis+activiti+easypoi+mybatisplus等技术重构项目，敬请期待。
+
