@@ -48,8 +48,11 @@
 2.教师管理界面：
 ![5](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-04.png?raw=true)
 
+
 ![6](https://github.com/wonderfulMorty/stuScoreManaSys/blob/master/run_img/Snipaste_2019-05-27_13-53-15.png?raw=true)
 
 
 近期将使用shiro+redis+activiti+easypoi+mybatisplus等技术重构项目，敬请期待。
+
+后续将用Cursor 生成的项目基础上优化这个学生成绩管理系统：https://www.toutiao.com/article/7495008213868266035/?log_from=49d79d953051e8_1745072637166
 
