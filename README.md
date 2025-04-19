@@ -54,5 +54,5 @@
 
 近期将使用shiro+redis+activiti+easypoi+mybatisplus等技术重构项目，敬请期待。
 
-后续将用Cursor 生成的项目基础上优化这个学生成绩管理系统：https://www.toutiao.com/article/7495008213868266035/?log_from=49d79d953051e8_1745072637166
+后续将用Cursor 生成的项目基础上优化这个学生成绩管理系统,详细见我写的头条新闻描述：https://www.toutiao.com/article/7495008213868266035/?log_from=49d79d953051e8_1745072637166
 
